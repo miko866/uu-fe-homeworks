@@ -25,3 +25,5 @@ export const dummyCarsData = [
   { id: '24', brand: 'Audi', model: 'SportBack', km: 145000, price: 99998000, fuel: 'Nafta' },
   { id: '25', brand: 'Audi', model: 'S', km: 45000, price: 19998000, fuel: 'Elektro' },
 ];
+
+export const dummyHeaderData = ['Brand', 'Model', 'KM', 'Price', 'Fuel'];

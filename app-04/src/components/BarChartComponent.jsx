@@ -16,9 +16,9 @@ import { dataFormatter } from '../utils/dataFormatter';
 const BarChartComponent = ({ data, title }) => {
   const charData = [];
 
-  data.map((item) => {
+  data.forEach((item) => {
     charData.push({ name: item['rok'], [title]: item[title] });
-  })
+  });
 
   return (
     <ResponsiveContainer height={400}>
