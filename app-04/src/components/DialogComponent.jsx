@@ -18,6 +18,7 @@ import {
 const DialogComponent = ({
   openDialog,
   handleCloseDialog,
+  handleResetDialog,
   carBrands,
   handleChangeBrand,
   brandNames,
@@ -70,7 +71,7 @@ const DialogComponent = ({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleResetDialog}>Cancel</Button>
           <Button onClick={handleCloseDialog}>Search</Button>
         </DialogActions>
       </Dialog>

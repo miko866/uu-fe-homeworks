@@ -12,7 +12,7 @@ const TableComponent = ({ headerData, rowData }) => {
           }}>
           <TableRow>
             {headerData.map((row) => (
-              <TableCell key={row} align="center">
+              <TableCell key={row} align="center" sx={{ fontWeight: 'bold' }}>
                 {row}
               </TableCell>
             ))}

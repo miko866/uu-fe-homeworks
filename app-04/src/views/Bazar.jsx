@@ -32,12 +32,18 @@ const Bazar = () => {
   const [carModels, setCarModels] = React.useState([]);
   const [openDialog, setOpenDialog] = React.useState(false);
 
+  let filteredCarModels = [];
+
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
   };
-
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+  const handleResetDialog = () => {
+    setOpenDialog(false);
+    setCarBrands([]);
+    setCarModels([]);
   };
 
   const handleChangeBrand = (event) => {
@@ -57,13 +63,29 @@ const Bazar = () => {
     const brandsData = [];
     const modelData = [];
 
-    if (carBrands.length !== 0) {
+    if (carBrands.length !== 0 && carModels.length === 0) {
       for (let brand of carBrands) {
-        if (item.brand === brand) return item;
+        if (item.brand === brand) {
+          if (modelNames.includes(item.model)) {
+            filteredCarModels.push(item.model);
+          }
+
+          filteredCarModels = [...new Set(filteredCarModels)];
+          return item;
+        }
       }
     } else if (carModels.length !== 0) {
-    } else return dummyCarsData;
+      console.log('filteredCarModels ins CARMODELS--------------------', filteredCarModels);
+      for (let model of carModels) {
+        if (item.model === model) return item;
+      }
+    } else {
+      filteredCarModels = modelNames;
+      return dummyCarsData;
+    }
   });
+
+  console.log('filteredCars --------------------', filteredCars);
 
   return (
     <>
@@ -95,12 +117,13 @@ const Bazar = () => {
       <DialogComponent
         openDialog={openDialog}
         handleCloseDialog={handleCloseDialog}
+        handleResetDialog={handleResetDialog}
         carBrands={carBrands}
         handleChangeBrand={handleChangeBrand}
         brandNames={brandNames}
         carModels={carModels}
         handleChangeModel={handleChangeModel}
-        modelNames={modelNames}
+        modelNames={filteredCarModels}
       />
     </>
   );
