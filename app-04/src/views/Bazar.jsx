@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Button, Typography } from '@mui/material';
 
@@ -28,14 +28,19 @@ const modelNames = [
 ];
 
 const Bazar = () => {
-  const [carBrands, setCarBrands] = React.useState([]);
-  const [carModels, setCarModels] = React.useState([]);
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [carBrands, setCarBrands] = useState([]);
+  const [carModels, setCarModels] = useState([]);
+  const [kmFrom, setKmFrom] = useState(0);
+  const [kmTo, setKmTo] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
 
   let filteredCarModels = [];
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
+  };
+  const handleFilterDialog = () => {
+    setOpenDialog(false);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -59,10 +64,14 @@ const Bazar = () => {
     setCarModels(typeof value === 'string' ? value.split(',') : value);
   };
 
-  const filteredCars = dummyCarsData.filter((item) => {
-    const brandsData = [];
-    const modelData = [];
+  const handleChangeKmFrom = (event) => {
+    setKmFrom(event.target.value);
+  };
+  const handleChangeKmTo = (event) => {
+    setKmTo(event.target.value);
+  };
 
+  const filteredCars = dummyCarsData.filter((item) => {
     if (carBrands.length !== 0 && carModels.length === 0) {
       for (let brand of carBrands) {
         if (item.brand === brand) {
@@ -74,18 +83,31 @@ const Bazar = () => {
           return item;
         }
       }
-    } else if (carModels.length !== 0) {
-      console.log('filteredCarModels ins CARMODELS--------------------', filteredCarModels);
+    }
+
+    if (carModels.length !== 0) {
+      for (let brand of carBrands) {
+        if (item.brand === brand) {
+          if (modelNames.includes(item.model)) {
+            filteredCarModels.push(item.model);
+          }
+
+          filteredCarModels = [...new Set(filteredCarModels)];
+        }
+      }
+
       for (let model of carModels) {
         if (item.model === model) return item;
       }
-    } else {
+    }
+
+    if (kmFrom !== 0 || kmTo !== 0) {
+    }
+    if (carModels.length === 0 && carBrands.length === 0 && kmFrom === 0 && kmTo === 0) {
       filteredCarModels = modelNames;
       return dummyCarsData;
     }
   });
-
-  console.log('filteredCars --------------------', filteredCars);
 
   return (
     <>
@@ -116,6 +138,7 @@ const Bazar = () => {
 
       <DialogComponent
         openDialog={openDialog}
+        handleFilterDialog={handleFilterDialog}
         handleCloseDialog={handleCloseDialog}
         handleResetDialog={handleResetDialog}
         carBrands={carBrands}
@@ -124,6 +147,10 @@ const Bazar = () => {
         carModels={carModels}
         handleChangeModel={handleChangeModel}
         modelNames={filteredCarModels}
+        handleChangeKmFrom={handleChangeKmFrom}
+        kmFrom={kmFrom}
+        kmTo={kmTo}
+        handleChangeKmTo={handleChangeKmTo}
       />
     </>
   );

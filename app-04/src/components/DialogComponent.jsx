@@ -13,25 +13,31 @@ import {
   ListItemText,
   Select,
   Checkbox,
+  TextField,
 } from '@mui/material';
 
 const DialogComponent = ({
   openDialog,
-  handleCloseDialog,
+  handleFilterDialog,
   handleResetDialog,
+  handleCloseDialog,
   carBrands,
   handleChangeBrand,
   brandNames,
   carModels,
   handleChangeModel,
   modelNames,
+  handleChangeKmFrom,
+  kmFrom,
+  handleChangeKmTo,
+  kmTo,
 }) => {
   if (openDialog) {
     return (
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Select you filters</DialogTitle>
         <DialogContent>
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl sx={{ m: 1, width: 400 }}>
             <InputLabel id="multiple-checkbox-brand">Brand</InputLabel>
             <Select
               labelId="multiple-checkbox-brand"
@@ -50,7 +56,7 @@ const DialogComponent = ({
             </Select>
           </FormControl>
 
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl sx={{ m: 1, width: 400 }}>
             <InputLabel id="multiple-checkbox-model">Model</InputLabel>
             <Select
               labelId="multiple-checkbox-model"
@@ -68,11 +74,44 @@ const DialogComponent = ({
               ))}
             </Select>
           </FormControl>
+
+          <FormControl
+            sx={{ m: 1, width: 400, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <TextField
+              id="numberFrom"
+              label="KM od"
+              type="number"
+              placeholder="Počet KM od"
+              defaultValue={kmFrom}
+              onChange={handleChangeKmFrom}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                width: '49%',
+              }}
+            />
+
+            <TextField
+              id="numberTo"
+              label="KM do"
+              type="number"
+              placeholder="Počet KM do"
+              defaultValue={kmTo}
+              onChange={handleChangeKmTo}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                width: '49%',
+              }}
+            />
+          </FormControl>
         </DialogContent>
 
         <DialogActions>
           <Button onClick={handleResetDialog}>Cancel</Button>
-          <Button onClick={handleCloseDialog}>Search</Button>
+          <Button onClick={handleFilterDialog}>Search</Button>
         </DialogActions>
       </Dialog>
     );
