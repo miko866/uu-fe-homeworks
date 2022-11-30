@@ -34,6 +34,7 @@ const Bazar = () => {
   const [kmTo, setKmTo] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
 
+  let filteredCars = [];
   let filteredCarModels = [];
 
   const handleClickOpenDialog = () => {
@@ -71,43 +72,38 @@ const Bazar = () => {
     setKmTo(event.target.value);
   };
 
-  const filteredCars = dummyCarsData.filter((item) => {
-    if (carBrands.length !== 0 && carModels.length === 0) {
-      for (let brand of carBrands) {
-        if (item.brand === brand) {
-          if (modelNames.includes(item.model)) {
-            filteredCarModels.push(item.model);
+  if (carModels.length !== 0 || carBrands.length !== 0 || kmFrom !== 0 || kmTo !== 0) {
+    dummyCarsData.forEach((item) => {
+      if (carBrands.length !== 0) {
+        for (let brand of carBrands) {
+          if (item.brand === brand) {
+            if (modelNames.includes(item.model)) {
+              filteredCarModels.push(item.model);
+            }
+
+            filteredCars.push(item);
           }
-
-          filteredCarModels = [...new Set(filteredCarModels)];
-          return item;
         }
+        filteredCarModels = [...new Set(filteredCarModels)];
       }
-    }
 
-    if (carModels.length !== 0) {
-      for (let brand of carBrands) {
-        if (item.brand === brand) {
-          if (modelNames.includes(item.model)) {
-            filteredCarModels.push(item.model);
-          }
+      if (carModels.length !== 0 && carBrands.length === 0) {
+        filteredCarModels = modelNames;
 
-          filteredCarModels = [...new Set(filteredCarModels)];
+        for (let model of carModels) {
+          if (item.model === model) filteredCars.push(item);
         }
+      } else if (carModels.length !== 0 && carBrands.length !== 0) {
+        filteredCars = filteredCars.filter((car) => carModels.includes(car.model));
       }
 
-      for (let model of carModels) {
-        if (item.model === model) return item;
+      if (kmFrom !== 0 || kmTo !== 0) {
       }
-    }
-
-    if (kmFrom !== 0 || kmTo !== 0) {
-    }
-    if (carModels.length === 0 && carBrands.length === 0 && kmFrom === 0 && kmTo === 0) {
-      filteredCarModels = modelNames;
-      return dummyCarsData;
-    }
-  });
+    });
+  } else {
+    filteredCarModels = modelNames;
+    filteredCars = dummyCarsData;
+  }
 
   return (
     <>
