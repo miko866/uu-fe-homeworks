@@ -14,6 +14,10 @@ import {
   Select,
   Checkbox,
   TextField,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
 } from '@mui/material';
 
 const DialogComponent = ({
@@ -31,13 +35,19 @@ const DialogComponent = ({
   kmFrom,
   handleChangeKmTo,
   kmTo,
+  priceFrom,
+  handleChangePriceFrom,
+  priceTo,
+  handleChangePriceTo,
+  fuelType,
+  handleFuelChange,
 }) => {
   if (openDialog) {
     return (
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Select you filters</DialogTitle>
         <DialogContent>
-          <FormControl sx={{ m: 1, width: 400 }}>
+          <FormControl sx={{ mb: 2, width: '100%' }}>
             <InputLabel id="multiple-checkbox-brand">Brand</InputLabel>
             <Select
               labelId="multiple-checkbox-brand"
@@ -56,7 +66,7 @@ const DialogComponent = ({
             </Select>
           </FormControl>
 
-          <FormControl sx={{ m: 1, width: 400 }}>
+          <FormControl sx={{ mb: 2, width: '100%' }}>
             <InputLabel id="multiple-checkbox-model">Model</InputLabel>
             <Select
               labelId="multiple-checkbox-model"
@@ -76,7 +86,7 @@ const DialogComponent = ({
           </FormControl>
 
           <FormControl
-            sx={{ m: 1, width: 400, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            sx={{ mb: 2, width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <TextField
               id="numberFrom"
               label="KM od"
@@ -107,6 +117,48 @@ const DialogComponent = ({
               }}
             />
           </FormControl>
+
+          <FormControl
+            sx={{ mb: 2, width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <TextField
+              id="priceFrom"
+              label="Cena od"
+              type="number"
+              placeholder="Cena od"
+              defaultValue={priceFrom}
+              onChange={handleChangePriceFrom}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                width: '49%',
+              }}
+            />
+
+            <TextField
+              id="priceTo"
+              label="Cena do"
+              type="number"
+              placeholder="Cena do"
+              defaultValue={priceTo}
+              onChange={handleChangePriceTo}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                width: '49%',
+              }}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel id="demo-row-radio-buttons-group-label">Palivo</FormLabel>
+            <RadioGroup row name="row-radio-buttons-group" onChange={handleFuelChange} value={fuelType}>
+              <FormControlLabel value="Benzín" control={<Radio />} label="Benzín" />
+              <FormControlLabel value="Nafta" control={<Radio />} label="Nafta" />
+              <FormControlLabel value="Elektro" control={<Radio />} label="Elektro" />
+            </RadioGroup>
+          </FormControl>
         </DialogContent>
 
         <DialogActions>
@@ -115,7 +167,7 @@ const DialogComponent = ({
         </DialogActions>
       </Dialog>
     );
-  } else return undefined;
+  } else return null;
 };
 
 export default DialogComponent;

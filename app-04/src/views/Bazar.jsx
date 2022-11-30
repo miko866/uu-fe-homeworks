@@ -7,6 +7,8 @@ import TableComponent from '../components/TableComponent';
 
 import { dummyCarsData, dummyHeaderData } from '../data/cars';
 
+import { between } from '../utils/helpers';
+
 const brandNames = ['Škoda', 'BMW', 'Porsche', 'Audi'];
 const modelNames = [
   'superb',
@@ -32,6 +34,9 @@ const Bazar = () => {
   const [carModels, setCarModels] = useState([]);
   const [kmFrom, setKmFrom] = useState(0);
   const [kmTo, setKmTo] = useState(0);
+  const [priceFrom, setPriceFrom] = useState(0);
+  const [priceTo, setPriceTo] = useState(0);
+  const [fuelType, setFuelType] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
 
   let filteredCars = [];
@@ -50,6 +55,11 @@ const Bazar = () => {
     setOpenDialog(false);
     setCarBrands([]);
     setCarModels([]);
+    setKmFrom(0);
+    setKmTo(0);
+    setPriceFrom(0);
+    setPriceTo(0);
+    setFuelType('');
   };
 
   const handleChangeBrand = (event) => {
@@ -72,7 +82,26 @@ const Bazar = () => {
     setKmTo(event.target.value);
   };
 
-  if (carModels.length !== 0 || carBrands.length !== 0 || kmFrom !== 0 || kmTo !== 0) {
+  const handleChangePriceFrom = (event) => {
+    setPriceFrom(event.target.value);
+  };
+  const handleChangePriceTo = (event) => {
+    setPriceTo(event.target.value);
+  };
+
+  const handleFuelChange = (event) => {
+    setFuelType(event.target.value);
+  };
+
+  if (
+    carModels.length !== 0 ||
+    carBrands.length !== 0 ||
+    kmFrom !== 0 ||
+    kmTo !== 0 ||
+    priceFrom !== 0 ||
+    priceTo !== 0 ||
+    fuelType
+  ) {
     dummyCarsData.forEach((item) => {
       if (carBrands.length !== 0) {
         for (let brand of carBrands) {
@@ -97,7 +126,60 @@ const Bazar = () => {
         filteredCars = filteredCars.filter((car) => carModels.includes(car.model));
       }
 
-      if (kmFrom !== 0 || kmTo !== 0) {
+      if (
+        (kmFrom !== 0 && carModels.length !== 0) ||
+        (kmTo !== 0 && carModels.length !== 0) ||
+        (kmFrom !== 0 && carBrands.length !== 0) ||
+        (kmTo !== 0 && carBrands.length !== 0)
+      ) {
+        filteredCars = filteredCars.filter((car) => {
+          if (between(car.km, kmFrom, kmTo)) return car;
+          return null;
+        });
+      } else if (
+        (kmFrom !== 0 && carModels.length === 0) ||
+        (kmTo !== 0 && carModels.length === 0) ||
+        (kmFrom !== 0 && carBrands.length === 0) ||
+        (kmTo !== 0 && carBrands.length === 0)
+      ) {
+        filteredCars = dummyCarsData.filter((car) => {
+          if (between(car.km, kmFrom, kmTo)) return car;
+          return null;
+        });
+      }
+
+      if (
+        (priceFrom !== 0 && carModels.length !== 0) ||
+        (priceTo !== 0 && carModels.length !== 0) ||
+        (priceFrom !== 0 && carBrands.length !== 0) ||
+        (priceTo !== 0 && carBrands.length !== 0)
+      ) {
+        filteredCars = filteredCars.filter((car) => {
+          if (between(car.price, priceFrom, priceTo)) return car;
+          return null;
+        });
+      } else if (
+        (priceFrom !== 0 && carModels.length === 0) ||
+        (priceTo !== 0 && carModels.length === 0) ||
+        (priceFrom !== 0 && carBrands.length === 0) ||
+        (priceTo !== 0 && carBrands.length === 0)
+      ) {
+        filteredCars = dummyCarsData.filter((car) => {
+          if (between(car.price, priceFrom, priceTo)) return car;
+          return null;
+        });
+      }
+
+      if ((fuelType && carModels.length !== 0) || (fuelType && carBrands.length !== 0)) {
+        filteredCars = filteredCars.filter((car) => {
+          if (car.fuel === fuelType) return car;
+          return null;
+        });
+      } else if ((fuelType && carModels.length === 0) || (fuelType && carBrands.length === 0)) {
+        filteredCars = dummyCarsData.filter((car) => {
+          if (car.fuel === fuelType) return car;
+          return null;
+        });
       }
     });
   } else {
@@ -147,6 +229,12 @@ const Bazar = () => {
         kmFrom={kmFrom}
         kmTo={kmTo}
         handleChangeKmTo={handleChangeKmTo}
+        priceFrom={priceFrom}
+        handleChangePriceFrom={handleChangePriceFrom}
+        priceTo={priceTo}
+        handleChangePriceTo={handleChangePriceTo}
+        fuelType={fuelType}
+        handleFuelChange={handleFuelChange}
       />
     </>
   );

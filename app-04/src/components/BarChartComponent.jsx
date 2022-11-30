@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { dataFormatter } from '../utils/dataFormatter';
+import { dataFormatter } from '../utils/helpers';
 
 
 const BarChartComponent = ({ data, title }) => {
