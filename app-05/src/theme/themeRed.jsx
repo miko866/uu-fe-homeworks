@@ -1,18 +1,11 @@
 import { createTheme } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
 
-export const appTheme = createTheme({
+export const appThemeRed = createTheme({
   palette: {
     primary: {
-      main: '#374955',
+      main: red[500],
       contrastText: '#fff',
-    },
-    secondary: {
-      main: '#EB9929',
-      contrastText: '#fff',
-    },
-    text: {
-      primary: '#374955',
-      secondary: '#9BAEBC',
     },
     background: {
       default: '#fff',
@@ -22,7 +15,15 @@ export const appTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: '#374955',
+          backgroundColor: red[500],
+          color: '#fff',
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          backgroundColor: red[500],
           color: '#fff',
         },
       },

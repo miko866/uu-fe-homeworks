@@ -7,9 +7,11 @@ const TableComponent = ({ headerData, rowData }) => {
     <TableContainer component={Paper}>
       <Table>
         <TableHead
-          sx={{
-            backgroundColor: '#bdbdbd',
-          }}>
+          sx={
+            {
+              // backgroundColor: '#bdbdbd',
+            }
+          }>
           <TableRow>
             {headerData.map((row) => (
               <TableCell key={row} align="center" sx={{ fontWeight: 'bold' }}>

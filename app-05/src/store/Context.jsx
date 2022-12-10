@@ -1,13 +1,13 @@
 import React, { createContext, useState } from 'react';
 
-export const themeType = createContext('main');
+export const ColorContext = createContext();
 
-export const ColorContext = ({ children }) => {
-  const [colorSchema, setColorSchema] = useState('');
+export const ThemeContext = ({ children }) => {
+  const [color, setColor] = useState('#f44336');
 
-  return <ColorContext.Provider value={[colorSchema, setColorSchema]}>{children}</ColorContext.Provider>;
+  return <ColorContext.Provider value={[color, setColor]}>{children}</ColorContext.Provider>;
 };
 
-ColorContext.context = themeType;
+ThemeContext.context = ColorContext;
 
-export default ColorContext;
+export default ThemeContext;
